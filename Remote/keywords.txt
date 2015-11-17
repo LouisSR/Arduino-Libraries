@@ -1,0 +1,13 @@
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+Remote			KEYWORD1
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+
+setOffCenter	KEYWORD2
+read			KEYWORD2
+setSwitch		KEYWORD2
