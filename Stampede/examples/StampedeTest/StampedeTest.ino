@@ -47,7 +47,7 @@ void loop() {
                    incomingByte = 0;
                 }
   }
-  //Stampede.setSpeed(incomingByte);
+  stampede.setSpeed(incomingByte);
   Serial.println(incomingByte);
   delay(500);
 }
