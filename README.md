@@ -1,5 +1,4 @@
 # Arduino-Libraries
-Personal libraries for Arduino
 
 Remote: read RC 6-channel receiver
 
