@@ -1,4 +1,4 @@
-#include <ArduinoLibraries/Remote.h>
+#include <Remote.h>
 
 #define CHANNEL1 7	//Digital pin
 #define CHANNEL2 7	//Analog pin
