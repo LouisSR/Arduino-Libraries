@@ -3,8 +3,8 @@
   Created by Louis SR, November 15, 2015.
   Released into the public domain.
 */
-#ifndef Morse_h
-#define Morse_h
+#ifndef Remote_h
+#define Remote_h
 
 #include "Arduino.h"
 
