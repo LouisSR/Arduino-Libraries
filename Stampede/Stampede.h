@@ -19,22 +19,31 @@
 #define SPEED_MIN -100
 #define STEER_MAX 100
 #define STEER_MIN -100
+#define FORWARD 1
+#define NEUTRAL	0
+#define BRAKING	2
+#define REVERSE	3
 
 class Stampede
 {
 	public:
 		Stampede(byte throttlePin, byte steeringPin);
 		void begin(void);
-		void setSpeed(int speed);
 		void setSteer(int steer);
+		void setSpeed(int speed);
+		void brake(byte brake);
+		void reverse(byte reverse);
 
 	private:
 		byte _throttlePin;
 		byte _steeringPin;
-		int _speed;
+		byte _last_state;
+		byte _state;
 		//create servo objects
 		Servo throttle;
 		Servo steering;
+
+		void updateState(int speed);
 };
 
 #endif
