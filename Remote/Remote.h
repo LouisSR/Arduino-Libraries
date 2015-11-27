@@ -15,7 +15,7 @@
 class Remote
 {
   public:
-  	Remote( byte *pins, byte nb_channels);
+  	Remote(const byte *pins, byte nb_channels);
 	void setOffCenter(byte channel);
 	void setSwitch(byte channel);
 	void setDefault(byte channel, int channelDefault);

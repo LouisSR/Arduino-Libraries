@@ -7,7 +7,7 @@
 #include "Arduino.h"
 #include "Remote.h"
 
-Remote::Remote( byte *pins, byte nb_channels)
+Remote::Remote(const byte *pins, byte nb_channels)
 {
 	for(byte channel=0;channel<nb_channels;channel++)
 	{
