@@ -6,31 +6,38 @@ Released into the public domain.
 
 #include "I2C.h"
 
-I2C::I2C(void)
+uint8_t i2cChecksum(uint8_t* data, uint8_t length);
+
+uint8_t message_to_send[COM_OUT_LENGTH-3];
+uint8_t dataReceived[COM_IN_LENGTH];
+boolean _new_message;
+
+
+void i2cBegin(uint8_t slaveAdress)
 {
 	_new_message = false;
 	//Initialize message_to_send
-	for(int i=0; i<COM_OUT_LENGTH-3; i++)
+	for(uint8_t i=0; i<COM_OUT_LENGTH-3; i++)
 	{
 		message_to_send[i]=0;
 	}
-	Wire.begin(SLAVE_ADDRESS);
-	//Wire.onReceive(receiveData);
-	//Wire.onRequest(sendData);
+	Wire.begin(slaveAdress);
+	Wire.onReceive(i2cReceiveData);
+	Wire.onRequest(i2cSendData);
 }
 
-boolean I2C::getMessage(uint8_t* message)
+boolean i2cGetMessage(uint8_t* message)
 {
 
 	if(_new_message)
 	{
 		//Todo: verify head, length and checksum
-		int command = dataReceived[0];
-		int data_length = dataReceived[1];
-		int checksum = dataReceived[data_length+2];
+		uint8_t command = dataReceived[0];
+		uint8_t data_length = dataReceived[1];
+		uint8_t checksum = dataReceived[data_length+2];
 
 		//Collect data
-		for (int i=0;i<data_length;i++)
+		for (uint8_t i=0;i<data_length;i++)
 		{
 			message[i] = dataReceived[i+2];
 		}
@@ -43,30 +50,30 @@ boolean I2C::getMessage(uint8_t* message)
 	}
 }
 
-void I2C::setMessage(uint8_t* message)
+void i2cSetMessage(uint8_t* message)
 {
-	for(int i=0; i<COM_OUT_LENGTH-3; i++)
+	for(uint8_t i=0; i<COM_OUT_LENGTH-3; i++)
 	{
 		message_to_send[i]=message[i];
 	}
 }
 
-void I2C::sendData()
+void i2cSendData()
 {
 	uint8_t data_to_send[COM_OUT_LENGTH];
 	data_to_send[0] = START_BYTE;
 	data_to_send[1] = COM_OUT_LENGTH-3;
-	data_to_send[COM_OUT_LENGTH-1] = checksum(message_to_send, COM_OUT_LENGTH-3);
-	for(int i=0; i<COM_OUT_LENGTH-3; i++)
+	data_to_send[COM_OUT_LENGTH-1] = i2cChecksum(message_to_send, COM_OUT_LENGTH-3);
+	for(uint8_t i=0; i<COM_OUT_LENGTH-3; i++)
 	{
 		data_to_send[i+2]=message_to_send[i];
 	}
 	Wire.write(data_to_send, COM_OUT_LENGTH);
 }
 
-void I2C::receiveData(int byteCount)
+void i2cReceiveData(int byteCount)
 {
-	int i = 0;
+	uint8_t i = 0;
 	if (byteCount>1)
 	{
 		while(Wire.available()) 
@@ -81,7 +88,9 @@ void I2C::receiveData(int byteCount)
 	}
 }
 
-uint8_t I2C::checksum(uint8_t* data, uint8_t length)
+uint8_t i2cChecksum(uint8_t* data, uint8_t length)
 {
 	return 255;
 }
+
+

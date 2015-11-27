@@ -2,14 +2,13 @@
 # Datatypes (KEYWORD1)
 ###########################################
 
-I2C			KEYWORD1
-
 ###########################################
 # Methods and Functions (KEYWORD2)
 ###########################################
 
-getMessage		KEYWORD2
-setMessage		KEYWORD2
-sendData			KEYWORD2
-receiveData		KEYWORD2
-checksum		KEYWORD2
+i2cBegin 				KEYWORD2
+i2cGetMessage		KEYWORD2
+i2cSetMessage		KEYWORD2
+i2cSendData			KEYWORD2
+i2cReceiveData		KEYWORD2
+i2cChecksum			KEYWORD2
