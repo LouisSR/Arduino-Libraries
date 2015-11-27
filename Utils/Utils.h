@@ -6,8 +6,6 @@
 #ifndef Utils_h
 #define Utils_h
 
-#include "Arduino.h"
-
 #define MAX_VOLTAGE 93 //MAX_VOLTAGE = 5V x (R1+R2)/R2 x 10
 
 int batteryVoltage(int pin);
