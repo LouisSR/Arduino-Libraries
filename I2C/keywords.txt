@@ -1,0 +1,15 @@
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+I2C			KEYWORD1
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+
+getMessage		KEYWORD2
+setMessage		KEYWORD2
+sendData			KEYWORD2
+receiveData		KEYWORD2
+checksum		KEYWORD2
