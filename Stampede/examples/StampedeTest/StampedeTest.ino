@@ -33,7 +33,11 @@ void loop()
 {
 
 	rc_value = remote.read(1);
-	value = map(rc_value,-500,500,-100,100);
+	if (rc_value != 0)
+	{
+		value = map(rc_value,-500,500,-100,100);
+	}
+	
 	Serial.print("RC Value: ");
 	Serial.print(rc_value);
 	Serial.print(" ");
