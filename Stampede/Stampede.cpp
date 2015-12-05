@@ -36,13 +36,12 @@ void Stampede::setSteer(int steer)
 void Stampede::setSpeed(int speed)
 {
 	speed = constrain(speed,SPEED_MIN,SPEED_MAX);
-
-	/*TODO
-	if(-5<speed<5)
+	
+	if( -5<speed && speed<5)
 	{
 		speed = 0;
 	}
-	*/
+
 	updateState(speed);
 
 	switch(_state)
