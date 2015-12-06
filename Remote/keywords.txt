@@ -8,6 +8,11 @@ Remote			KEYWORD1
 # Methods and Functions (KEYWORD2)
 ###########################################
 
+begin		KEYWORD2
 setOffCenter	KEYWORD2
 read			KEYWORD2
 setSwitch		KEYWORD2
+setDefault	KEYWORD2
+isConnected	KEYWORD2
+checkIfConnected	KEYWORD2
+measure		KEYWORD2

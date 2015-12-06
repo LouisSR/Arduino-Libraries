@@ -8,24 +8,30 @@
 
 #include "Arduino.h"
 
-#define NB_CHANNELS 6
+#define MAX_NB_CHANNELS 6
 #define VALUE_MAX 2000
 #define VALUE_MIN 1000
 
 class Remote
 {
   public:
-  	Remote(const byte *pins, byte nb_channels);
+  	Remote(void);
+  	void begin(const byte *pins, byte nb_channels);
 	void setOffCenter(byte channel);
 	void setSwitch(byte channel);
 	void setDefault(byte channel, int channelDefault);
 	int read(byte channel);
+	boolean isConnected(void);
+	void checkIfConnected(void);
 
   private:
-	byte _pins[NB_CHANNELS]; 
-	int _channelDefault[NB_CHANNELS]; //default value if no signal is received
-	boolean _centered[NB_CHANNELS];
-	boolean _switch[NB_CHANNELS];
+  	unsigned int measure(byte channel);
+
+	byte _pins[MAX_NB_CHANNELS]; 
+	int _channelDefault[MAX_NB_CHANNELS]; //default value if no signal is received
+	boolean _centered[MAX_NB_CHANNELS];
+	boolean _switch[MAX_NB_CHANNELS];
+	boolean _isConnected;
 };
 
 #endif

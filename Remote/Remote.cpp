@@ -7,8 +7,16 @@
 #include "Arduino.h"
 #include "Remote.h"
 
-Remote::Remote(const byte *pins, byte nb_channels)
+Remote::Remote(void)
 {
+}
+
+void Remote::begin(const byte *pins, byte nb_channels)
+{
+	if (nb_channels > MAX_NB_CHANNELS)
+	{
+		nb_channels = MAX_NB_CHANNELS;
+	}
 	for(byte channel=0;channel<nb_channels;channel++)
 	{
 		pinMode(pins[channel], INPUT);
@@ -21,24 +29,28 @@ Remote::Remote(const byte *pins, byte nb_channels)
 
 void Remote::setOffCenter(byte channel)
 {
-	_centered[channel-1]=false;
+	_centered[channel]=false;
 }
 
 void Remote::setSwitch(byte channel)
 {
-	_switch[channel-1] = true;
+	_switch[channel] = true;
 }
 
 void Remote::setDefault(byte channel, int channelDefault)
 {
-	_channelDefault[channel-1] = channelDefault;
+	_channelDefault[channel] = channelDefault;
+}
+
+unsigned int Remote::measure(byte channel)
+{
+	return( pulseIn(_pins[channel], HIGH, 25000) );
 }
 
 int Remote::read(byte channel)
 {
 	int value;
-	channel=channel-1; //Arrays are 0-indexed 
-	value = pulseIn(_pins[channel],HIGH, 40000);
+	value = (int) measure(channel);
 	if(value == 0) // no signal
 	{
 		value = _channelDefault[channel];
@@ -74,4 +86,21 @@ int Remote::read(byte channel)
 		}
 	}
 	return value;
+}
+
+boolean Remote::isConnected(void)
+{
+	return(_isConnected);
+}
+
+void Remote::checkIfConnected(void)
+{
+	if(measure(0) != 0)
+	{
+		_isConnected = true;
+	}
+	else
+	{
+		_isConnected = false;
+	}
 }
