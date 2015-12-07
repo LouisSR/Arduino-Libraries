@@ -2,8 +2,8 @@
 
 #define LOOPTIME 1000
 
-Chrono chrono("test");
-Chrono loopTime("Loop Time", LOOPTIME);
+Chrono chrono;
+Chrono loopTime(LOOPTIME);
 
 
 void setup(void)
@@ -11,11 +11,12 @@ void setup(void)
 	// start serial port
 	Serial.begin(19200);
 	Serial.println("Chrono Test");
-	loopTime.begin();
+	loopTime.start();
 }
 
 void loop(void)
 {
+	unsigned long theTime;
 
 	delay(10);
 
@@ -23,7 +24,12 @@ void loop(void)
 	delay(50);
 	chrono.stop();
 
-	chrono.display();
+
+	theTime = chrono.elapsedTime();
+
+	Serial.print(" Elapsed time is: ");
+	Serial.print(theTime); 
+	Serial.println(" us");
 
 	delay(10);
 

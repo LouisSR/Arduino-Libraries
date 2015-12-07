@@ -6,21 +6,11 @@
 
 #include "Chrono.h"
 
-
-Chrono::Chrono(char* name, unsigned int interval)
+Chrono::Chrono(unsigned int interval_ms)
 {
-	for(byte letter=0;letter<11;letter++)
-	{
-		_name[letter] = name[letter];
-	}
 	_tic = 0;
 	_toc = 0;
-	_interval = ((unsigned long) interval) * 1000;
-}
-
-void Chrono::begin(void)
-{
-	start();
+	_interval_us = ((unsigned long) interval_ms) * 1000;
 }
 
 void Chrono::start(void)
@@ -30,21 +20,26 @@ void Chrono::start(void)
 
 void Chrono::stop(void)
 {
-	_toc = micros() - _tic;
+	_toc = micros();
 }
 
 unsigned long Chrono::elapsedTime(void)
 {
-	return(_toc);
+	if(_toc < _tic)
+	{
+		stop();
+	}
+	return(_toc - _tic);
 }
 
 void Chrono::wait(void)
 {
 	stop();
 
-	if( _interval > _toc)
+	unsigned long timeElapsed = _toc - _tic;
+	if( _interval_us > timeElapsed )
 	{
-		unsigned long timeToStop = _interval - _toc;
+		unsigned long timeToStop = _interval_us - timeElapsed;
 		if (timeToStop > 65000)
 		{
 			delay(timeToStop/1000);
@@ -54,15 +49,5 @@ void Chrono::wait(void)
 			delayMicroseconds(timeToStop);
 		}
 	}
-
 	start();
-}
-
-void Chrono::display(void)
-{
-	Serial.print(" Time of ");
-	Serial.print(_name);
-	Serial.print(": ");
-	Serial.print(_toc); 
-	Serial.println(" us");
 }

@@ -12,19 +12,16 @@
 class Chrono
 {
 	public:
-		Chrono(char* name, unsigned int interval=0);
-		void begin(void);
+		Chrono(unsigned int interval_ms=0);
 		void start(void);
 		void stop(void);
 		unsigned long elapsedTime(void);
 		void wait(void);
-		void display(void);
 	
 	private:
 		unsigned long _tic;
 		unsigned long _toc;
-		char _name[11];
-		unsigned long _interval;
+		unsigned long _interval_us;
 };
 
 #endif
