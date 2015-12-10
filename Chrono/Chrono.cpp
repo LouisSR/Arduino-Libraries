@@ -24,6 +24,8 @@ void Chrono::stop(void)
 }
 
 unsigned long Chrono::elapsedTime(void)
+/** Return time elapsed between start and either 
+last stop or now if stop is outdated **/
 {
 	if(_toc < _tic)
 	{
@@ -33,6 +35,8 @@ unsigned long Chrono::elapsedTime(void)
 }
 
 void Chrono::wait(void)
+/** Wait until time between start and now is 
+equal to interval_ms **/
 {
 	stop();
 

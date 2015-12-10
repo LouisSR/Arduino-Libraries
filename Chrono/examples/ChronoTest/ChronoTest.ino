@@ -24,7 +24,6 @@ void loop(void)
 	delay(50);
 	chrono.stop();
 
-
 	theTime = chrono.elapsedTime();
 
 	Serial.print(" Elapsed time is: ");
@@ -34,7 +33,6 @@ void loop(void)
 	delay(10);
 
 	loopTime.wait();
-
 }
 
 
