@@ -11,6 +11,7 @@
 
 #define COM_IN_LENGTH 6 // Length of I2C recieved data
 #define COM_OUT_LENGTH 5 // Length of I2C sent data
+#define COM_OVERHEAD 3
 #define START_BYTE 15
 
 

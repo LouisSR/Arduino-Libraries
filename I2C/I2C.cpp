@@ -8,7 +8,7 @@ Released into the public domain.
 
 uint8_t i2cChecksum(uint8_t* data, uint8_t length);
 
-uint8_t message_to_send[COM_OUT_LENGTH-3];
+uint8_t message_to_send[COM_OUT_LENGTH-COM_OVERHEAD];
 uint8_t dataReceived[COM_IN_LENGTH];
 boolean _new_message;
 
@@ -17,7 +17,7 @@ void i2cBegin(uint8_t slaveAdress)
 {
 	_new_message = false;
 	//Initialize message_to_send
-	for(uint8_t i=0; i<COM_OUT_LENGTH-3; i++)
+	for(uint8_t i=0; i<COM_OUT_LENGTH-COM_OVERHEAD; i++)
 	{
 		message_to_send[i]=0;
 	}
@@ -52,7 +52,7 @@ boolean i2cGetMessage(uint8_t* message)
 
 void i2cSetMessage(uint8_t* message)
 {
-	for(uint8_t i=0; i<COM_OUT_LENGTH-3; i++)
+	for(uint8_t i=0; i<COM_OUT_LENGTH-COM_OVERHEAD; i++)
 	{
 		message_to_send[i]=message[i];
 	}
@@ -62,9 +62,9 @@ void i2cSendData()
 {
 	uint8_t data_to_send[COM_OUT_LENGTH];
 	data_to_send[0] = START_BYTE;
-	data_to_send[1] = COM_OUT_LENGTH-3;
-	data_to_send[COM_OUT_LENGTH-1] = i2cChecksum(message_to_send, COM_OUT_LENGTH-3);
-	for(uint8_t i=0; i<COM_OUT_LENGTH-3; i++)
+	data_to_send[1] = COM_OUT_LENGTH-COM_OVERHEAD;
+	data_to_send[COM_OUT_LENGTH-1] = i2cChecksum(message_to_send, COM_OUT_LENGTH-COM_OVERHEAD);
+	for(uint8_t i=0; i<COM_OUT_LENGTH-COM_OVERHEAD; i++)
 	{
 		data_to_send[i+2]=message_to_send[i];
 	}
