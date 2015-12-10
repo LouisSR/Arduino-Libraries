@@ -7,22 +7,35 @@
 #include "Arduino.h"
 #include "Utils.h"
 
-int batteryVoltage(int pin)
+uint8_t batteryVoltage(uint8_t pin)
 {
-	int adc, voltage;
+	int adc;
+	uint8_t voltage;
+
 	adc = analogRead(pin);
-	voltage = map(adc,0,1023,0,MAX_VOLTAGE);
+	voltage = (uint8_t) map(adc,0,MAX_ADC,0,MAX_VOLTAGE);
 	return voltage;
 }
 
-int photoCell(int pin)
+uint8_t photoCell(uint8_t pin)
 {
-	int adc = analogRead(pin);
+	int adc;
+	uint8_t luminosity;
+	adc = analogRead(pin);
+	luminosity = (uint8_t) map(adc,0,MAX_ADC,0,MAX_LUMINOSITY);
 	return adc;
 }
 
-int pir(int pin)
+boolean pir(uint8_t pin) 
 {
 	int pirReading = digitalRead(pin);
-	return pirReading;
+
+	if(pirReading > MAX_ADC/2)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }
