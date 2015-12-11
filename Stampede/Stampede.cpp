@@ -28,8 +28,6 @@ void Stampede::setSteer(int steer)
 {
 	steer = constrain(steer,STEER_MIN,STEER_MAX);
 	steer = map(steer,STEER_MIN,STEER_MAX,STEER_RIGHT,STEER_LEFT);
-	Serial.print("_Steer: ");
-	Serial.println(steer);
 	steering.write(steer);		
 }
 
