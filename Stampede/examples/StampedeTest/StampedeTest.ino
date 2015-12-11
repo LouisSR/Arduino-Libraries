@@ -1,7 +1,6 @@
 
 #include <Servo.h>
 #include <Stampede.h>
-#include <Remote.h>
 
 
 #define THROTTLE_PIN 10  // attach ESC to pin 10
@@ -9,16 +8,13 @@
 #define MOTOR 0
 #define STEERING 1
 
-
-byte pin[] = {7};
 Stampede stampede(THROTTLE_PIN,STEERING_PIN);
-Remote remote(pin,1);
 
-int incomingByte = 0;
+
+char incomingByte;
 int speed = 0;
 int mode = MOTOR;
 int steer;
-int rc_value = 0;
 int value=0;
 void setup() 
 {  
@@ -31,21 +27,9 @@ void setup()
 
 void loop() 
 {
-
-	rc_value = remote.read(1);
-	if (rc_value != 0)
-	{
-		value = map(rc_value,-500,500,-100,100);
-	}
-	
-	Serial.print("RC Value: ");
-	Serial.print(rc_value);
-	Serial.print(" ");
-	Serial.println(value);
-
 	if (Serial.available() > 0) 
 	{		
-			// read the incoming byte:
+		// read the incoming byte:
 		incomingByte = Serial.read();
 		if(incomingByte=='s')
 		{
@@ -61,66 +45,76 @@ void loop()
 
 		switch(incomingByte)
 		{
-			
+
 			case '0':
-				Serial.print("Neutral");
-				value = 0;
-				break;
+			Serial.print("Neutral");
+			value = 0;
+			break;
 			case '1':
-				Serial.print("Forward slow");
-				value = 12;
-				break;
+			Serial.print("Forward slow");
+			value = 5;
+			break;
 			case '2':
-				Serial.print("Forward fast");
-				value = 40;
-				break;
+			Serial.print("Forward fast");
+			value = 10;
+			break;
 			case '3':
-				Serial.print("Forward  super fast");
-				value = 60;
-				break;
+			Serial.print("Forward  super fast");
+			value = 20;
+			break;
 			case '4':
-				Serial.print("Forward ultra fast");
-				value = 80;
-				break;
+			Serial.print("Forward ultra fast");
+			value = 40;
+			break;
 			case '9':
-				Serial.print("Reverse"); // back-neutral then back again !!!
-				value = -10;
-				break;
+			Serial.print("Reverse"); // back-neutral then back again !!!
+			value = -10;
+			break;
+
+			case 'p':
+			Serial.print("Increment");
+			value += 2;
+			break;
+
+			case 'o':
+			Serial.print("Decrement");
+			value -= 2;
+			break;
 
 			case 's':
-				break;
+			break;
 
 			default : 
-				Serial.print("Error ");
-				Serial.print(incomingByte);
-				value = 0;
+			Serial.print("Error ");
+			Serial.print(incomingByte);
+			value = 0;
 		}
 
-		
+
 	}
 	if(mode == STEERING)
+	{
+		if(value == 0)
 		{
-			if(value == 0)
+			steer+=5;
+			if(steer>100)
 			{
-				steer+=5;
-				if(steer>100)
-				{
-					steer=-100;
-				}
+				steer=-100;
 			}
-			else
-			{
-				steer = value;
-			}
-			stampede.setSteer(steer);
-			Serial.print("\t Steer: ");
-			Serial.println(steer);
 		}
 		else
 		{
-			Serial.print("\t Speed: ");
-			Serial.println(value);
-			stampede.setSpeed(value);
+			steer = value;
 		}
-		delay(300);
+		stampede.setSteer(steer);
+		Serial.print("\t Steer: ");
+		Serial.println(steer);
+	}
+	else
+	{
+		Serial.print("\t Speed: ");
+		Serial.println(value);
+		stampede.setSpeed(value);
+	}
+	delay(300);
 }	
