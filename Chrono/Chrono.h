@@ -7,12 +7,13 @@
 #ifndef Chrono_h
 #define Chrono_h
 
-#include "Arduino.h"
+#include <Arduino.h>
 
 class Chrono
 {
 	public:
 		Chrono(unsigned int interval_ms=0);
+		void begin(unsigned int interval_ms=0);
 		void start(void);
 		void stop(void);
 		unsigned long elapsedTime(void);

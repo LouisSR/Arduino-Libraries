@@ -8,7 +8,8 @@ Chrono	KEYWORD1
 # Methods and Functions (KEYWORD2)
 ###########################################
 
-start			KEYWORD2
-stop			KEYWORD2
-elapsedTime		KEYWORD2
-wait			KEYWORD2
+begin	KEYWORD2
+start	KEYWORD2
+stop		KEYWORD2
+elapsedTime	KEYWORD2
+wait		KEYWORD2

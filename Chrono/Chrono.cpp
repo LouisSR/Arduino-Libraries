@@ -13,6 +13,11 @@ Chrono::Chrono(unsigned int interval_ms)
 	_interval_us = ((unsigned long) interval_ms) * 1000;
 }
 
+void Chrono::begin(unsigned int interval_ms)
+{
+	_interval_us = ((unsigned long) interval_ms) * 1000;
+}
+
 void Chrono::start(void)
 {
 	_tic = micros();
@@ -44,7 +49,7 @@ equal to interval_ms **/
 	if( _interval_us > timeElapsed )
 	{
 		unsigned long timeToStop = _interval_us - timeElapsed;
-		if (timeToStop > 65000)
+		if (timeToStop > 16000) //Arduino.cc: "Currently, the largest value that will produce an accurate delay is 16383"
 		{
 			delay(timeToStop/1000);
 		}
