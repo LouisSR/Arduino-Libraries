@@ -1,34 +1,33 @@
 /*
-  Chrono.cpp - Library for measuring the computational time of a function.
+  Chronos.cpp - Library for measuring the computational time of a function.
   Created by Louis SR, December 5, 2015.
-  Released into the public domain.
 */
 
-#include "Chrono.h"
+#include "Chronos.h"
 
-Chrono::Chrono(unsigned int interval_ms)
+Chronos::Chronos(unsigned int interval_ms)
 {
 	_tic = 0;
 	_toc = 0;
 	_interval_us = ((unsigned long) interval_ms) * 1000;
 }
 
-void Chrono::begin(unsigned int interval_ms)
+void Chronos::begin(unsigned int interval_ms)
 {
 	_interval_us = ((unsigned long) interval_ms) * 1000;
 }
 
-void Chrono::start(void)
+void Chronos::start(void)
 {
 	_tic = micros();
 }
 
-void Chrono::stop(void)
+void Chronos::stop(void)
 {
 	_toc = micros();
 }
 
-unsigned long Chrono::elapsedTime(void)
+unsigned long Chronos::elapsedTime(void)
 /** Return time elapsed between start and either 
 last stop or now if stop is outdated **/
 {
@@ -39,10 +38,13 @@ last stop or now if stop is outdated **/
 	return(_toc - _tic);
 }
 
-void Chrono::wait(void)
-/** Wait until time between start and now is 
-equal to interval_ms **/
+bool Chronos::wait(void)
+/** Wait until time between now and start is 
+equal to interval_ms 
+Return True if it neds to wait
+**/
 {
+	bool waited;
 	stop();
 
 	unsigned long timeElapsed = _toc - _tic;
@@ -57,6 +59,12 @@ equal to interval_ms **/
 		{
 			delayMicroseconds(timeToStop);
 		}
+		waited = true;
+	}
+	else
+	{
+		waited = false;
 	}
 	start();
+	return waited;
 }

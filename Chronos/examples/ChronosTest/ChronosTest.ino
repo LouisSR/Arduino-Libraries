@@ -1,18 +1,18 @@
 
-#include "Chrono.h"
+#include "Chronos.h"
 
 #define LOOPTIME 1000
 
 
-Chrono loopTime;
-Chrono chrono;
+Chronos loopTime;
+Chronos chrono;
 
 
 void setup(void)
 {
 	// start serial port
 	Serial.begin(19200);
-	Serial.println("Chrono Test");
+	Serial.println("Chronos Test");
 	loopTime.begin(LOOPTIME);
 	loopTime.start();
 }
