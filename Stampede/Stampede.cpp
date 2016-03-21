@@ -18,9 +18,9 @@ void Stampede::begin(void)
 {
 	pinMode(_throttlePin, OUTPUT); 
 	pinMode(_steeringPin, OUTPUT); 
-	throttle.attach(_throttlePin);  
+	throttle.attach(_throttlePin, THROTTLE_MIN, THROTTLE_MAX);  
 	steering.attach(_steeringPin);
-	throttle.write(THROTTLE_NEUTRAL);   // sets mid throttle
+	throttle.writeMicroseconds(THROTTLE_NEUTRAL);   // sets mid throttle
 	steering.write(STEER_NEUTRAL);   // centers steering
 }
 
@@ -46,33 +46,36 @@ void Stampede::setSpeed(int speed)
 	{
 		case FORWARD:
 			speed = map(speed,0,SPEED_MAX,THROTTLE_NEUTRAL,THROTTLE_MAX);
-			throttle.write(speed);
+			throttle.writeMicroseconds(speed);
 			Serial.print("Speed forward: ");
 			Serial.println(speed);
 			break;
 		case NEUTRAL:
-			throttle.write(THROTTLE_NEUTRAL);
+			throttle.writeMicroseconds(THROTTLE_NEUTRAL);
 			Serial.print("Speed neutral: ");
-			Serial.println(speed);
+			Serial.println(THROTTLE_NEUTRAL);
 			break;
 		case BRAKING:
 			speed = map(speed,SPEED_MIN,0,THROTTLE_MIN,THROTTLE_NEUTRAL);
-			throttle.write(speed);
+			throttle.writeMicroseconds(speed);
 			Serial.print("Speed braking: ");
 			Serial.println(speed);
 			break;
 		case REVERSE:
 			speed = map(speed,SPEED_MIN,0,THROTTLE_MIN,THROTTLE_NEUTRAL);
-			throttle.write(speed);
+			throttle.writeMicroseconds(speed);
 			Serial.print("Speed reverse: ");
 			Serial.println(speed);
 			break;
 		default:
-			throttle.write(THROTTLE_NEUTRAL);
+			throttle.writeMicroseconds(THROTTLE_NEUTRAL);
 			Serial.print("Speed error: ");
-			Serial.println(speed);
+			Serial.println(THROTTLE_NEUTRAL);
 			break;
 	}
+
+		Serial.print( "Read speed: " );
+		Serial.println( throttle.readMicroseconds() );
 }
 
 void Stampede::brake(byte brake)

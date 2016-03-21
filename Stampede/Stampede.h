@@ -9,9 +9,9 @@
 #include <Arduino.h>
 #include <Servo.h>
 
-#define THROTTLE_NEUTRAL 90
-#define THROTTLE_MAX 180
-#define THROTTLE_MIN 0
+#define THROTTLE_NEUTRAL 1500
+#define THROTTLE_MAX 2000
+#define THROTTLE_MIN 1000
 #define STEER_LEFT 130 //+100
 #define STEER_NEUTRAL 90
 #define STEER_RIGHT 50  //-100
