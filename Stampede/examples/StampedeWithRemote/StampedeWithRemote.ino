@@ -1,7 +1,7 @@
 
 #include <Servo.h>
-#include <Stampede.h>
-#include <Remote.h>
+#include "Stampede.h"
+#include "Remote.h"
 
 #define THROTTLE_PIN 7
 #define STEERING_PIN 8
