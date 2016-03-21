@@ -44,7 +44,7 @@ void Remote::setDefault(byte channel, int channelDefault)
 
 unsigned int Remote::measure(byte channel)
 {
-	return( pulseIn(_pins[channel], HIGH, 25000) );
+	return( pulseIn(_pins[channel], HIGH, 30000) );
 }
 
 int Remote::read(byte channel)
