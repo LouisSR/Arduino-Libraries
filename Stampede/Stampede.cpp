@@ -6,79 +6,79 @@
 
 #include "Stampede.h"
 
-Stampede::Stampede(byte throttlePin, byte steeringPin)
+Stampede::Stampede(void)
 {
-	_throttlePin = throttlePin;
-	_steeringPin = steeringPin;
 	_last_state = NEUTRAL;
 	_state = NEUTRAL;
+	_steer = 0;
+	_speed = 0;
 }
 
 void Stampede::begin(void)
 {
-	pinMode(_throttlePin, OUTPUT); 
-	pinMode(_steeringPin, OUTPUT); 
-	throttle.attach(_throttlePin, THROTTLE_MIN, THROTTLE_MAX);  
-	steering.attach(_steeringPin);
+	lights.begin(LIGHTS_POS, LIGHTS_REV, LIGHTS_STOP, LUMINOSITY);
+	pinMode(SERVO_ESC_PIN, OUTPUT); 
+	pinMode(SERVO_STEERING_PIN, OUTPUT); 
+	throttle.attach(SERVO_ESC_PIN, THROTTLE_MIN, THROTTLE_MAX);  
+	steering.attach(SERVO_STEERING_PIN);
 	throttle.writeMicroseconds(THROTTLE_NEUTRAL);   // sets mid throttle
 	steering.write(STEER_NEUTRAL);   // centers steering
 }
 
-void Stampede::setSteer(int steer)
+void Stampede::update(void)
 {
-	steer = constrain(steer,STEER_MIN,STEER_MAX);
-	steer = map(steer,STEER_MIN,STEER_MAX,STEER_RIGHT,STEER_LEFT);
-	steering.write(steer);		
-}
+	unsigned int speed;
+	steering.write(_steer);
 
-void Stampede::setSpeed(int speed)
-{
-	speed = constrain(speed,SPEED_MIN,SPEED_MAX);
-	
-	if( -5<speed && speed<5)
-	{
-		speed = 0;
-	}
-
-	updateState(speed);
+	updateState();
 
 	switch(_state)
 	{
 		case FORWARD:
-			speed = map(speed,0,SPEED_MAX,THROTTLE_NEUTRAL,THROTTLE_MAX);
-			throttle.writeMicroseconds(speed);
 			Serial.print("Speed forward: ");
-			Serial.println(speed);
 			break;
 		case NEUTRAL:
-			throttle.writeMicroseconds(THROTTLE_NEUTRAL);
 			Serial.print("Speed neutral: ");
-			Serial.println(THROTTLE_NEUTRAL);
 			break;
 		case BRAKING:
-			speed = map(speed,SPEED_MIN,0,THROTTLE_MIN,THROTTLE_NEUTRAL);
-			throttle.writeMicroseconds(speed);
 			Serial.print("Speed braking: ");
-			Serial.println(speed);
 			break;
 		case REVERSE:
-			speed = map(speed,SPEED_MIN,0,THROTTLE_MIN,THROTTLE_NEUTRAL);
-			throttle.writeMicroseconds(speed);
 			Serial.print("Speed reverse: ");
-			Serial.println(speed);
 			break;
 		default:
-			throttle.writeMicroseconds(THROTTLE_NEUTRAL);
+			_speed = 0;
 			Serial.print("Speed error: ");
-			Serial.println(THROTTLE_NEUTRAL);
 			break;
 	}
+	speed = map(_speed,SPEED_MIN,SPEED_MAX,THROTTLE_MIN,THROTTLE_MAX);
+	throttle.writeMicroseconds(speed);
 
-		Serial.print( "Read speed: " );
-		Serial.println( throttle.readMicroseconds() );
+	batteryVoltage(BATTERY, BATTERY_LED);
+	lights.update(_state);
+
+}
+
+void Stampede::setSteer(int steer)
+//set steer between -100(right) and 100(left)
+{
+	steer = constrain(steer,STEER_MIN,STEER_MAX);
+	_steer = map(steer,STEER_MIN,STEER_MAX,STEER_RIGHT,STEER_LEFT);
+}
+
+void Stampede::setSpeed(int speed)
+// set speed between -100(Reverse or braking) and 100 (forward)
+{
+	_speed = constrain(speed,SPEED_MIN,SPEED_MAX);
+	
+	if( -10<_speed && _speed<10)
+	{
+		_speed = 0;
+	}
 }
 
 void Stampede::brake(byte brake)
+//brake between 0 (no braking) and 100
 {
 	if(_state == BRAKING || _state == FORWARD)
 	{
@@ -106,15 +106,15 @@ void Stampede::reverse(byte reverse)
 	}
 }
 
-void Stampede::updateState(int speed)
+void Stampede::updateState(void)
 {
 	byte new_state = _state;
 	
-	if(speed > 0)
+	if(_speed > 0)
 	{
 		new_state = FORWARD;
 	}
-	else if (speed < 0)
+	else if (_speed < 0)
 	{
 		if(_state == FORWARD)
 		{
