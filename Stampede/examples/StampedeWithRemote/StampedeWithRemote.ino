@@ -3,20 +3,14 @@
 #include "Stampede.h"
 #include "Remote.h"
 
-#define THROTTLE_PIN 7
-#define STEERING_PIN 8
-#define ESC_PIN 10  // attach ESC to pin 10
-#define STEERING_SERVO_PIN 9   // attach steering servo to pin 9
-#define NB_CHANNELS 2
-
 enum Buttons
 {
 	THROTTLE,
 	STEERING
 };
 
-byte pins[NB_CHANNELS];
-Stampede stampede(ESC_PIN,STEERING_SERVO_PIN);
+byte pins[REMOTE_NB_CHANNELS];
+Stampede stampede(SERVO_ESC_PIN, SERVO_STEERING_PIN);
 Remote remote;
 
 int speed = 0;
@@ -24,9 +18,9 @@ int steer = 0;
 
 void setup() 
 {  
-	pins[THROTTLE] = THROTTLE_PIN;
-	pins[STEERING] = STEERING_PIN;
-	remote.begin(pins, NB_CHANNELS);
+	pins[THROTTLE] = REMOTE_THROTTLE_PIN;
+	pins[STEERING] = REMOTE_STEERING_PIN;
+	remote.begin(pins, REMOTE_NB_CHANNELS);
 	stampede.begin();
 	delay(1000); // wait for ESC
 	// start serial port
