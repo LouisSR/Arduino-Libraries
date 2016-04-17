@@ -8,6 +8,24 @@
 
 #include <Arduino.h>
 #include <Servo.h>
+#include "Lighting.h"
+#include "Utils.h"
+
+//Car 
+#define BATTERY	A0 //Measure battery voltage on this analog pin
+#define BATTERY_LED 13
+#define LUMINOSITY	A1 //Measure luminosity on this analog pin
+#define SERVO_ESC_PIN 10  // attach ESC to pin 10
+#define SERVO_STEERING_PIN 9   // attach steering servo to pin 9
+#define LIGHTS_POS A2
+#define LIGHTS_REV A3
+#define LIGHTS_STOP A4
+
+//Remote 
+#define REMOTE_NB_CHANNELS 2 // Number of channels of the remote used
+#define REMOTE_THROTTLE_PIN 7
+#define REMOTE_STEERING_PIN 8
+
 
 #define THROTTLE_NEUTRAL 1500
 #define THROTTLE_MAX 2000
@@ -27,23 +45,26 @@
 class Stampede
 {
 	public:
-		Stampede(byte throttlePin, byte steeringPin);
+		Stampede(void);
 		void begin(void);
+		void update(void);
 		void setSteer(int steer);
 		void setSpeed(int speed);
 		void brake(byte brake);
 		void reverse(byte reverse);
 
 	private:
-		byte _throttlePin;
-		byte _steeringPin;
 		byte _last_state;
 		byte _state;
+		int _speed;
+		int _steer;
+		Lighting lights;
 		//create servo objects
 		Servo throttle;
 		Servo steering;
 
-		void updateState(int speed);
+
+		void updateState(void);
 };
 
 #endif
