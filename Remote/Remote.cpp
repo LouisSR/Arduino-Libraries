@@ -1,4 +1,4 @@
-/*
+ /*
   Remote.cpp - Library for reading remote.
   Created by Louis SR, November 15, 2015.
   Released into the public domain.
@@ -44,7 +44,7 @@ void Remote::setDefault(byte channel, int channelDefault)
 
 unsigned int Remote::measure(byte channel)
 {
-	return( pulseIn(_pins[channel], HIGH, 30000) );
+	return( pulseIn(_pins[channel], HIGH, 5500) );
 }
 
 int Remote::read(byte channel)
