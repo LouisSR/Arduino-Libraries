@@ -1,17 +1,17 @@
 /*
-	Chronos.h - Library for measuring the computational time of a function.
+	Clock.h - Library for measuring the computational time of a function.
 	Created by Louis SR, December 5, 2015.
 */
 
-#ifndef Chronos_h
-#define Chronos_h
+#ifndef Clock_h
+#define Clock_h
 
 #include <Arduino.h>
 
-class Chronos
+class Clock
 {
 	public:
-		Chronos(unsigned int interval_ms=0);
+		Clock(unsigned int interval_ms=0);
 		void begin(unsigned int interval_ms=0);
 		void start(void);
 		void stop(void);
