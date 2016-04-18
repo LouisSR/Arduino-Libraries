@@ -33,15 +33,12 @@ uint8_t photoCell(uint8_t pin)
 	int adc;
 	uint8_t luminosity;
 	adc = analogRead(pin);
-	Serial.print("Luminosity: ");
-	Serial.print(adc);
-	Serial.print(", ");
 	luminosity = (uint8_t) map(adc,0,MAX_ADC,0,MAX_LUMINOSITY);
 	Serial.println(luminosity);
 	return luminosity;
 }
 
-boolean pir(uint8_t pin) 
+bool pir(uint8_t pin) 
 {
 	int pirReading = digitalRead(pin);
 
@@ -53,4 +50,23 @@ boolean pir(uint8_t pin)
 	{
 		return 0;
 	}
+}
+
+void printUnsigned(const char* name, unsigned long data)
+{
+	Serial.print(name);
+	Serial.print(": ");
+	Serial.println(data); 
+}
+void printSigned(const char* name, long data)
+{
+	Serial.print(name);
+	Serial.print(": ");
+	Serial.println(data); 
+}
+void printFloat(const char* name, float data)
+{
+	Serial.print(name);
+	Serial.print(": ");
+	Serial.println(data); 
 }

@@ -16,5 +16,8 @@
 uint8_t batteryVoltage(uint8_t pin, uint8_t led);
 uint8_t photoCell(uint8_t pin);
 bool pir(uint8_t pin);
+void printUnsigned(const char* name, unsigned long data);
+void printSigned(const char* name, long data);
+void printFloat(const char* name, float data);
 
 #endif
