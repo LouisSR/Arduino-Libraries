@@ -1,6 +1,6 @@
 /*
 	Clock.h - Library for measuring the computational time of a function.
-	Created by Louis SR, December 5, 2015.
+	Created by Louis SR, March 2016
 */
 
 #ifndef Clock_h
@@ -11,12 +11,13 @@
 class Clock
 {
 	public:
-		Clock(unsigned int interval_ms=0);
+		Clock(void);
 		void begin(unsigned int interval_ms=0);
 		void start(void);
 		void stop(void);
 		unsigned long elapsedTime(void);
 		bool wait(void);
+		bool isItTime(void);
 	
 	private:
 		unsigned long _tic;

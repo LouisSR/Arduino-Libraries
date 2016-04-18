@@ -13,3 +13,4 @@ start	KEYWORD2
 stop		KEYWORD2
 elapsedTime	KEYWORD2
 wait		KEYWORD2
+isItTime	KEYWORD2

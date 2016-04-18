@@ -1,19 +1,18 @@
 /*
   Clock.cpp - Library for measuring the computational time of a function.
-  Created by Louis SR, December 5, 2015.
+  Created by Louis SR, March 2016.
 */
 
 #include "Clock.h"
 
-Clock::Clock(unsigned int interval_ms)
+Clock::Clock(void)
 {
-	_tic = 0;
-	_toc = 0;
-	_interval_us = ((unsigned long) interval_ms) * 1000;
 }
 
 void Clock::begin(unsigned int interval_ms)
 {
+	start();
+	_toc = _tic;
 	_interval_us = ((unsigned long) interval_ms) * 1000;
 }
 
@@ -36,6 +35,24 @@ last stop or now if stop is outdated **/
 		stop();
 	}
 	return(_toc - _tic);
+}
+
+bool Clock::isItTime(void)
+/** Return true if time is elapsed. Return false if not **/
+{
+	unsigned long elapsedTime = micros() - _tic;
+	bool status;
+
+	if(elapsedTime > _interval_us)
+	{
+		status = true;
+		start(); // reset the clock
+	}
+	else
+	{
+		status = false;
+	}
+	return status;
 }
 
 bool Clock::wait(void)
