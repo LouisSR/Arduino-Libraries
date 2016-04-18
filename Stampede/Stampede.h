@@ -46,7 +46,7 @@ class Stampede
 {
 	public:
 		Stampede(void);
-		void begin(void);
+		void begin(bool debug);
 		void update(void);
 		void setSteer(int steer);
 		void setSpeed(int speed);
@@ -56,6 +56,7 @@ class Stampede
 	private:
 		byte _last_state;
 		byte _state;
+		bool _debug;
 		int _speed;
 		int _steer;
 		Lighting lights;

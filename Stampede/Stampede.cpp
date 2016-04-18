@@ -14,8 +14,9 @@ Stampede::Stampede(void)
 	_speed = 0;
 }
 
-void Stampede::begin(void)
+void Stampede::begin(bool debug)
 {
+	_debug = debug;
 	lights.begin(LIGHTS_POS, LIGHTS_REV, LIGHTS_STOP, LUMINOSITY);
 	pinMode(SERVO_ESC_PIN, OUTPUT); 
 	pinMode(SERVO_STEERING_PIN, OUTPUT); 
@@ -32,25 +33,6 @@ void Stampede::update(void)
 
 	updateState();
 
-	switch(_state)
-	{
-		case FORWARD:
-			Serial.print("Speed forward: ");
-			break;
-		case NEUTRAL:
-			Serial.print("Speed neutral: ");
-			break;
-		case BRAKING:
-			Serial.print("Speed braking: ");
-			break;
-		case REVERSE:
-			Serial.print("Speed reverse: ");
-			break;
-		default:
-			_speed = 0;
-			Serial.print("Speed error: ");
-			break;
-	}
 	speed = map(_speed,SPEED_MIN,SPEED_MAX,THROTTLE_MIN,THROTTLE_MAX);
 	throttle.writeMicroseconds(speed);
 
@@ -142,5 +124,28 @@ void Stampede::updateState(void)
 	{
 		_last_state = _state;
 		_state = new_state;
+	}
+
+	if(_debug)
+	{
+		switch(_state)
+		{
+			case FORWARD:
+				Serial.print("Speed forward: ");
+				break;
+			case NEUTRAL:
+				Serial.print("Speed neutral: ");
+				break;
+			case BRAKING:
+				Serial.print("Speed braking: ");
+				break;
+			case REVERSE:
+				Serial.print("Speed reverse: ");
+				break;
+			default:
+				_speed = 0;
+				Serial.print("Speed error: ");
+				break;
+		}
 	}
 }
