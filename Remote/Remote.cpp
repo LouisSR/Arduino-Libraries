@@ -44,7 +44,7 @@ void Remote::setDefault(byte channel, int channelDefault)
 
 unsigned int Remote::measure(byte channel)
 {
-	return( pulseIn(_pins[channel], HIGH, 5500) );
+	return( pulseIn(_pins[channel], HIGH, 30000) ); // 5500 for servo at 300Hz
 }
 
 int Remote::read(byte channel)

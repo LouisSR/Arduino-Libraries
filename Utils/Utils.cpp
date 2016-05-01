@@ -34,7 +34,6 @@ uint8_t photoCell(uint8_t pin)
 	uint8_t luminosity;
 	adc = analogRead(pin);
 	luminosity = (uint8_t) map(adc,0,MAX_ADC,0,MAX_LUMINOSITY);
-	Serial.println(luminosity);
 	return luminosity;
 }
 

@@ -10,7 +10,7 @@ enum Buttons
 };
 
 byte pins[REMOTE_NB_CHANNELS];
-Stampede stampede(SERVO_ESC_PIN, SERVO_STEERING_PIN);
+Stampede stampede;
 Remote remote;
 
 int speed = 0;
@@ -21,7 +21,7 @@ void setup()
 	pins[THROTTLE] = REMOTE_THROTTLE_PIN;
 	pins[STEERING] = REMOTE_STEERING_PIN;
 	remote.begin(pins, REMOTE_NB_CHANNELS);
-	stampede.begin();
+	stampede.begin(true);
 	delay(1000); // wait for ESC
 	// start serial port
 	Serial.begin(19200);
@@ -44,8 +44,11 @@ void loop()
 		Serial.println("Remote is not connected.");
 	}
 	
-	stampede.setSteer(steer);
-	stampede.setSpeed(speed);
+	stampede.setSteer(map(speed, -500, 500, -100, 100));
+
+	stampede.setSpeed(map(speed, -500, 500, -100, 100));
+
+	stampede.update();
 
 	Serial.print("Throttle: ");
 	Serial.print(speed);
@@ -54,5 +57,5 @@ void loop()
 	Serial.println(steer);
 
 	Serial.println();
-	delay(500);
+	delay(300);
 }	

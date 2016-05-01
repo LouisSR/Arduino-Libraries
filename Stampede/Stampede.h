@@ -28,8 +28,8 @@
 
 
 #define THROTTLE_NEUTRAL 1500
-#define THROTTLE_MAX 2000
-#define THROTTLE_MIN 1000
+#define THROTTLE_MAX 1850 //max 1850 for QuicRun 1060
+#define THROTTLE_MIN 1050 //min 1050 for QuicRun 1060
 #define STEER_LEFT 130 //+100
 #define STEER_NEUTRAL 90
 #define STEER_RIGHT 50  //-100
@@ -63,7 +63,6 @@ class Stampede
 		//create servo objects
 		Servo throttle;
 		Servo steering;
-
 
 		void updateState(void);
 };

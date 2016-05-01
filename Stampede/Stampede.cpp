@@ -28,15 +28,37 @@ void Stampede::begin(bool debug)
 
 void Stampede::update(void)
 {
-	unsigned int speed;
+	unsigned int speed, battery;
 	steering.write(_steer);
 
 	updateState();
 
 	speed = map(_speed,SPEED_MIN,SPEED_MAX,THROTTLE_MIN,THROTTLE_MAX);
+
+	if(_speed>=0)
+	{
+		speed = map(_speed,0,SPEED_MAX,THROTTLE_NEUTRAL,THROTTLE_MAX);
+	}
+	else
+	{
+		speed = map(_speed,SPEED_MIN,0,THROTTLE_MIN,THROTTLE_NEUTRAL);
+	}
+
+	if(_debug)
+	{
+		Serial.print(_speed);
+		Serial.print(", ");
+		Serial.println(speed);
+	}
+
 	throttle.writeMicroseconds(speed);
 
-	batteryVoltage(BATTERY, BATTERY_LED);
+	battery = batteryVoltage(BATTERY, BATTERY_LED);
+	if(_debug)
+	{
+		Serial.print("\t\t\t BatteryVoltage: ");
+		Serial.println(battery);
+	}
 	lights.update(_state);
 
 }
