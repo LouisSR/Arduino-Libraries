@@ -48,7 +48,7 @@ void Stampede::update(void)
 	{
 		Serial.print(_speed);
 		Serial.print(", ");
-		Serial.println(speed);
+		Serial.println(_steer);
 	}
 
 	throttle.writeMicroseconds(speed);
@@ -153,20 +153,20 @@ void Stampede::updateState(void)
 		switch(_state)
 		{
 			case FORWARD:
-				Serial.print("Speed forward: ");
+				Serial.print("Forward: ");
 				break;
 			case NEUTRAL:
-				Serial.print("Speed neutral: ");
+				Serial.print("Neutral: ");
 				break;
 			case BRAKING:
-				Serial.print("Speed braking: ");
+				Serial.print("Braking: ");
 				break;
 			case REVERSE:
-				Serial.print("Speed reverse: ");
+				Serial.print("Reverse: ");
 				break;
 			default:
 				_speed = 0;
-				Serial.print("Speed error: ");
+				Serial.print("Stampede error: ");
 				break;
 		}
 	}
