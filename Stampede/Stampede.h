@@ -22,10 +22,10 @@
 #define LIGHTS_STOP A4
 
 //Remote 
-#define REMOTE_NB_CHANNELS 2 // Number of channels of the remote used
+#define REMOTE_NB_CHANNELS 3 // Number of channels of the remote used
 #define REMOTE_THROTTLE_PIN 7
 #define REMOTE_STEERING_PIN 8
-
+#define	REMOTE_SWITCH_PIN 4
 
 #define THROTTLE_NEUTRAL 1500
 #define THROTTLE_MAX 1850 //max 1850 for QuicRun 1060
@@ -52,6 +52,7 @@ class Stampede
 		void setSpeed(int speed);
 		void brake(byte brake);
 		void reverse(byte reverse);
+		byte getState(void);
 
 	private:
 		byte _last_state;

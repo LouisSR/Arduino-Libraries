@@ -171,3 +171,8 @@ void Stampede::updateState(void)
 		}
 	}
 }
+
+byte Stampede::getState(void)
+{
+	return(_state);
+}
