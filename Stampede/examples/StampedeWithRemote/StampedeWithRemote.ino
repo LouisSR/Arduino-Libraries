@@ -44,7 +44,7 @@ void loop()
 		Serial.println("Remote is not connected.");
 	}
 	
-	stampede.setSteer(map(speed, -500, 500, -100, 100));
+	stampede.setSteer(map(steer, -500, 500, -100, 100));
 
 	stampede.setSpeed(map(speed, -500, 500, -100, 100));
 
@@ -57,5 +57,5 @@ void loop()
 	Serial.println(steer);
 
 	Serial.println();
-	delay(300);
+	delay(10);
 }	
