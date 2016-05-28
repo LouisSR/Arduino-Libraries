@@ -11,8 +11,9 @@ Remote::Remote(void)
 {
 }
 
-void Remote::begin(const byte *pins, byte nb_channels)
+void Remote::begin(const byte *pins, byte nb_channels, bool debug)
 {
+	_debug = debug;
 	if (nb_channels > MAX_NB_CHANNELS)
 	{
 		nb_channels = MAX_NB_CHANNELS;
@@ -44,7 +45,16 @@ void Remote::setDefault(byte channel, int channelDefault)
 
 unsigned int Remote::measure(byte channel)
 {
-	return( pulseIn(_pins[channel], HIGH, 30000) ); // 5500 for servo at 300Hz
+	unsigned int measurement;
+
+	measurement = pulseIn(_pins[channel], HIGH, 6000); // 30000 for servo at 50Hz, 5500 at 300Hz
+	
+	if(_debug)
+	{
+		printUnsigned("Remote Measure: ", measurement);
+	}
+
+	return(measurement); 
 }
 
 int Remote::read(byte channel)
@@ -88,7 +98,7 @@ int Remote::read(byte channel)
 	return value;
 }
 
-boolean Remote::isConnected(void)
+bool Remote::isConnected(void)
 {
 	return(_isConnected);
 }
